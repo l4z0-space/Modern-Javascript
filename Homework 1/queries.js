@@ -1,3 +1,6 @@
+console.log("Choose an option...");
+l
+
 //-------------------------------------------------------------------------
 // 1 - How many students are there per standing (freshman, sophomore, etc)?
 function studentsPerStanding(){
@@ -28,7 +31,7 @@ function coursesPerDepartment(){
   console.log("Showing number of courses of each department...");
   for( let current of Object.keys(coursesPerDepartment)){
     numCourses = coursesPerDepartment[current];
-    console.log(" > "+current +": "+ numCourses+" course/s");
+    console.log(" > "+current + ": " + numCourses +" course/s");
   }
 }
 
@@ -187,13 +190,13 @@ function studentsWithoutENG(){
         takingENG=true;
       }
     }
-    if(takingENG===false){
+    if(takingENG===true){
       nonENGstudents.push(student.name);
     }
   }
 
   // show results
-  console.log("Showing the student not taking ENG courses...");
+  console.log("Showing the student taking ENG courses...");
   for (var i = 0; i < nonENGstudents.length; i++) {
     student =nonENGstudents[i];
     console.log(" > " + student);
