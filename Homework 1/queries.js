@@ -1,4 +1,5 @@
-// 1 - How many students are there per standing (freshman, sophomore, etc)?**************
+//-------------------------------------------------------------------------
+// 1 - How many students are there per standing (freshman, sophomore, etc)?
 function studentsPerStanding(){
   studentsPerStanding={}
   for(let student of students){
@@ -6,12 +7,14 @@ function studentsPerStanding(){
       else studentsPerStanding[student.standing] += 1;
   }
 
+  // show results
   console.log("Showing number of students of each standing...");
   for( let current of Object.keys(studentsPerStanding)){
     numStudents = studentsPerStanding[current];
     console.log(" > "+current +": "+ numStudents+" student/s");
   }
 }
+
 
 //------------------------------------------------
 // 2 - How many courses are there per department?
@@ -21,13 +24,14 @@ function coursesPerDepartment(){
   	if(!coursesPerDepartment[course.department]){coursesPerDepartment[course.department]=1;}
   	else coursesPerDepartment[course.department] +=1;
   }
-
+  // show results
   console.log("Showing number of courses of each department...");
   for( let current of Object.keys(coursesPerDepartment)){
     numCourses = coursesPerDepartment[current];
     console.log(" > "+current +": "+ numCourses+" course/s");
   }
 }
+
 
 //-------------------------------------------------
 // 3 - How many students are in each department?
@@ -57,6 +61,7 @@ function studentInEachDepartment(){
       }
   	}
   }
+  // show results
   console.log("Showing number of students in each department...");
   for( let current of Object.keys(studentsPerDepartment)){
     numStudents = studentsPerDepartment[current];
@@ -68,7 +73,7 @@ function studentInEachDepartment(){
 
 
 
-
+//-----------------------------------------------------
 // 4 - How many students does each professor teach to?
 function studentsForProfessor(){
   studentPerCourse = {}
@@ -89,18 +94,20 @@ function studentsForProfessor(){
       else studentForProfessor[currProf] +=studentPerCourse[currCourse];
 
   }
-
-  console.log("Showing courses number for each professor...");
+  // show results
+  console.log("Showing students number for each professor...");
   for( let current of Object.keys(studentForProfessor)){
     numCourses = studentForProfessor[current];
     if(!numCourses)numCourses=0;
-    console.log(" > "+current +": "+ numCourses+" course/s");
+    console.log(" > "+current +": "+ numCourses+" students/s");
 
   }
 }
 
-  // 5 - Which course has the most students enrolled in it?
-  // 6 - Which course has the fewest students enrolled in it?
+
+//----------------------------------------------------------
+// 5 - Which course has the most students enrolled in it?
+// 6 - Which course has the fewest students enrolled in it?
 function MinOrMaxEnrolledCourse(){
     studentPerCourse={};
     mostEnrolledCourse = courses[0].section; // temporary assigned a starting value
@@ -137,7 +144,7 @@ function MinOrMaxEnrolledCourse(){
 
     mostCourses=[];
     leastCourses=[];
-
+    // Code below to add the courses if they are minimum or maximum
     for( let course of courses){
         currCourse = course.section;
         if(studentPerCourse[currCourse]==studentPerCourse[mostEnrolledCourse]){
@@ -148,22 +155,28 @@ function MinOrMaxEnrolledCourse(){
         }
     }
 
+    // show results
     console.log("Most enrolled course/s with " + studentPerCourse[mostEnrolledCourse] + " student/s... ")
     for (var i = 0; i < mostCourses.length; i++) {
       console.log(" > " + mostCourses[i]);
     }
 
+    console.log("Least enrolled course/s with " + studentPerCourse[leastCourses] + " student/s... ")
+    for (var i = 0; i < leastCourses.length; i++) {
+      console.log(" > " + leastCourses[i]);
+    }
+
 }
 
 
-- Which student has the biggest sum of credits for their enrolled classes?
-
-// 9- What is the "major" of each student (the department they are taking most courses in)?
+// 7- Which student has the biggest sum of credits for their enrolled classes?
 
 
+// 8- What is the "major" of each student (the department they are taking most courses in)?
 
-// 10- Which students are taking courses in the "ENG" department?
 
+//---------------------------------------------------------------
+// 9- Which students are taking courses in the "ENG" department?
 function studentsWithoutENG(){
 
   nonENGstudents=[]
@@ -178,6 +191,8 @@ function studentsWithoutENG(){
       nonENGstudents.push(student.name);
     }
   }
+
+  // show results
   console.log("Showing the student not taking ENG courses...");
   for (var i = 0; i < nonENGstudents.length; i++) {
     student =nonENGstudents[i];
