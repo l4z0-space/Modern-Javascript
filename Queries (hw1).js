@@ -100,19 +100,61 @@ function studentsForProfessor(){
 }
 
   // 5 - Which course has the most students enrolled in it?
+  // 6 - Which course has the fewest students enrolled in it?
+function MinOrMaxEnrolledCourse(){
+    studentPerCourse={};
+    mostEnrolledCourse = courses[0].section; // temporary assigned a starting value
+    minEnrolledCourse = courses[0].section;
 
-function MinOrMaxEnrolledCourse(type){
-  mostEnrolledCourse=courses[0].section; // temporary assigned a starting value
-  for( let student of students){
+    // assign number of students to each course
+    for( let student of students){
       for( let currCourse of student.courses){
-        if( !studentPerCourse[currCourse]) studentPerCourse[currCourse]=1;
-        else studentPerCourse[currCourse]+=1;
-        if(studentPerCourse[currCourse])
+        if( !studentPerCourse[currCourse]){
+          studentPerCourse[currCourse]=1;
+        }
+        else {
+          studentPerCourse[currCourse]+=1;
+        }
       }
     }
-  }
+
+    // calculate the min or max
+    for( let course of courses){
+      currCourse = course.section;
+
+      if(!studentPerCourse[currCourse]){
+        studentPerCourse[currCourse]=0;
+      }
+
+      if(studentPerCourse[currCourse] > studentPerCourse[mostEnrolledCourse]){
+        mostEnrolledCourse = currCourse;
+      }
+      if(studentPerCourse[currCourse] < studentPerCourse[minEnrolledCourse]){
+        minEnrolledCourse = currCourse;
+      }
+      // [DEBUG] console.log("current course: "+ currCourse+" | "+studentPerCourse[currCourse]);
+    }
+
+    mostCourses=[];
+    leastCourses=[];
+
+    for( let course of courses){
+        currCourse = course.section;
+        if(studentPerCourse[currCourse]==studentPerCourse[mostEnrolledCourse]){
+          mostCourses.push(currCourse);
+        }
+        if(studentPerCourse[currCourse]==studentPerCourse[minEnrolledCourse]){
+          leastCourses.push(currCourse);
+        }
+    }
+
+    console.log("Most enrolled course/s with " + studentPerCourse[mostEnrolledCourse] + " student/s... ")
+    for (var i = 0; i < mostCourses.length; i++) {
+      console.log(" > " + mostCourses[i]);
+    }
+
 }
-- Which course has the fewest students enrolled in it?
+
 
 - Which student has the biggest sum of credits for their enrolled classes?
 
