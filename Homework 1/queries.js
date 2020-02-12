@@ -1,5 +1,5 @@
 console.log("Choose an option...");
-l
+
 
 //-------------------------------------------------------------------------
 // 1 - How many students are there per standing (freshman, sophomore, etc)?
@@ -173,16 +173,47 @@ function MinOrMaxEnrolledCourse(){
 
 
 // 7- Which student has the biggest sum of credits for their enrolled classes?
+function biggestSumOfCredits(){
 
+  creditPerCourse={}
+  for( let course of courses){
+    creditPerCourse[course.section]=course.credits;
+  }
+
+  mostCreditStudents=[];
+
+  maxCredits=0;
+
+  for(let student of students){
+    currCredits=0;
+    for(let currCourse of student.courses){
+      currCredits += creditPerCourse[currCourse];
+    }
+    if(currCredits>maxCredits){maxCredits=currCredits;}
+  }
+
+  for(let student of students){
+    currCredits=0;
+    for(let currCourse of student.courses){
+      currCredits += creditPerCourse[currCourse];
+    }
+    if(currCredits===maxCredits){mostCreditStudents.push(student.name);}
+  }
+
+  console.log("Showing student/s with most credits (" + maxCredits +")...");
+  for (var i = 0; i < mostCreditStudents.length; i++) {
+    console.log(" > "+ mostCreditStudents[i]);
+  }
+}
 
 // 8- What is the "major" of each student (the department they are taking most courses in)?
 
 
 //---------------------------------------------------------------
 // 9- Which students are taking courses in the "ENG" department?
-function studentsWithoutENG(){
+function studentWithENG(){
 
-  nonENGstudents=[]
+  ENGstudents=[]
   for (let student of students){
     let takingENG=false;
     for(let course of student.courses){
@@ -191,14 +222,14 @@ function studentsWithoutENG(){
       }
     }
     if(takingENG===true){
-      nonENGstudents.push(student.name);
+      ENGstudents.push(student.name);
     }
   }
 
   // show results
   console.log("Showing the student taking ENG courses...");
-  for (var i = 0; i < nonENGstudents.length; i++) {
-    student =nonENGstudents[i];
+  for (var i = 0; i < ENGstudents.length; i++) {
+    student =ENGstudents[i];
     console.log(" > " + student);
   }
 }
