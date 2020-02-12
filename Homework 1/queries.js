@@ -1,5 +1,14 @@
-console.log("Choose an option...");
 
+
+functions=[studentsPerStanding,coursesPerDepartment,studentInEachDepartment,
+           studentsForProfessor,MinOrMaxEnrolledCourse,biggestSumOfCredits,
+           showMajors,studentWithENG]
+
+
+// calls all the functions/queries
+for (var i = 0; i < functions.length; i++) {
+  functions[i]();
+}
 
 //-------------------------------------------------------------------------
 // 1 - How many students are there per standing (freshman, sophomore, etc)?
@@ -69,7 +78,7 @@ function studentInEachDepartment(){
   for( let current of Object.keys(studentsPerDepartment)){
     numStudents = studentsPerDepartment[current];
     if(!numStudents)numStudents=0;
-    if(current===undefined)current = "Course not listed in any department";
+    if(current==="undefined")current = "MAT"; // ???not listed int departments???
     console.log(" > "+current +": "+ numStudents+" student/s");
   }
 }
@@ -93,9 +102,12 @@ function studentsForProfessor(){
   for( let course of courses ){
     currProf=course.instructor;
     currCourse = course.section;
-    if(!studentForProfessor[currProf])studentForProfessor[currProf] = studentPerCourse[currCourse];
-      else studentForProfessor[currProf] +=studentPerCourse[currCourse];
-
+    if(!studentForProfessor[currProf]){
+      studentForProfessor[currProf] = studentPerCourse[currCourse];
+    }
+    else{
+      studentForProfessor[currProf] += studentPerCourse[currCourse];
+    }
   }
   // show results
   console.log("Showing students number for each professor...");
@@ -135,10 +147,11 @@ function MinOrMaxEnrolledCourse(){
       if(!studentPerCourse[currCourse]){
         studentPerCourse[currCourse]=0;
       }
-
+      // update most enrolled
       if(studentPerCourse[currCourse] > studentPerCourse[mostEnrolledCourse]){
         mostEnrolledCourse = currCourse;
       }
+      // update least enrolled
       if(studentPerCourse[currCourse] < studentPerCourse[minEnrolledCourse]){
         minEnrolledCourse = currCourse;
       }
@@ -150,9 +163,11 @@ function MinOrMaxEnrolledCourse(){
     // Code below to add the courses if they are minimum or maximum
     for( let course of courses){
         currCourse = course.section;
+        // if equal to maximum then add
         if(studentPerCourse[currCourse]==studentPerCourse[mostEnrolledCourse]){
           mostCourses.push(currCourse);
         }
+        // if equal to minimum then add
         if(studentPerCourse[currCourse]==studentPerCourse[minEnrolledCourse]){
           leastCourses.push(currCourse);
         }
@@ -176,10 +191,11 @@ function MinOrMaxEnrolledCourse(){
 function biggestSumOfCredits(){
 
   creditPerCourse={}
+  // map each course with its credits
   for( let course of courses){
     creditPerCourse[course.section]=course.credits;
   }
-
+  // the output will be here
   mostCreditStudents=[];
 
   maxCredits=0;
@@ -189,17 +205,18 @@ function biggestSumOfCredits(){
     for(let currCourse of student.courses){
       currCredits += creditPerCourse[currCourse];
     }
-    if(currCredits>maxCredits){maxCredits=currCredits;}
+    if(currCredits>maxCredits){maxCredits=currCredits;} // update max
   }
 
   for(let student of students){
     currCredits=0;
     for(let currCourse of student.courses){
-      currCredits += creditPerCourse[currCourse];
+      currCredits += creditPerCourse[currCourse]; // calculate the credits for student
     }
+    // if equal to the maximum then add student to the list
     if(currCredits===maxCredits){mostCreditStudents.push(student.name);}
   }
-
+  // show result
   console.log("Showing student/s with most credits (" + maxCredits +")...");
   for (var i = 0; i < mostCreditStudents.length; i++) {
     console.log(" > "+ mostCreditStudents[i]);
@@ -208,6 +225,40 @@ function biggestSumOfCredits(){
 
 // 8- What is the "major" of each student (the department they are taking most courses in)?
 
+function showMajors(){
+
+  majorOfStudent={};
+
+  for(let student of students){
+    name = student.name;
+    major = findDepartment[student.courses[0]]; // temporary major
+    depCounter={}; // keep count of departments for each student
+    depSize=0;
+    for(let course of student.courses){
+
+      currDep = course.substring(0,3);
+      if(currDep==="THR") currDep="FAR";
+      // [DEBUG] console.log(course);
+      if(!depCounter[currDep]){
+        depCounter[currDep]=1;
+      }
+      else{
+        depCounter[currDep]+=1;
+        if(depCounter[currDep]>depSize){
+          depSize = depCounter[currDep];
+          majorOfStudent[name] = currDep; // map to the major
+        }
+      }
+    }
+    if(depSize<2) {
+      majorOfStudent[name] = "Not enough courses for major";
+    }
+  }
+  console.log("Showing majors of each student...");
+  for (let student of students) {
+    console.log(" > "+ student.name + " | " + majorOfStudent[student.name]);
+  }
+}
 
 //---------------------------------------------------------------
 // 9- Which students are taking courses in the "ENG" department?
